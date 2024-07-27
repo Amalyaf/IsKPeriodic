@@ -2,43 +2,28 @@
 #include <string>
 using namespace std;
 
-//¬ходными данными дл€ функции IsKPeriodic €вл€ютс€ строка, которую нужно проверить, и число K, 
-//которое представл€ет собой длину подстроки, повтор€ющейс€ в строке с заданной кратностью.
-
 bool IsKPeriodic(string str, int k)
 {
-	int length = str.size();
-	if (k > length)
-	{
-		cout << "„исло k не должно быть больше длины строки!" << endl;
-		return false;
-	}
-	if (k <= 0)
-	{
-		cout << "„исло k должно быть больше нул€!" << endl;
-		return false;
-	}
-
 	//если длина строки и число k не кратны, следовательно строка сама не может быть кратна этому числу
-	if (length % k != 0)
+	if (str.size() % k != 0)
 	{
 		return false;
 	}
 
-	int i = 0;
 	//создаЄм массив periodic дл€ хранени€ подстроки длиной k
 	char* periodic = new char[k];
 
-	for (i = 0; i < k; i++)
+	for (int i = 0; i < k; i++)
 	{
 		periodic[i] = str[i];
 	}
 
 	int j = 0;
-	for (i = k; i < length; i++)
+	for (int i = k; i < str.size(); i++)
 	{
 		if (str[i] != periodic[j])
 		{
+			delete[]periodic;
 			return false;
 		}
 		j++;
@@ -48,6 +33,7 @@ bool IsKPeriodic(string str, int k)
 		}
 	}
 
+	delete[]periodic;
 	return true;
 }
 
@@ -56,16 +42,25 @@ int main()
 	setlocale(LC_ALL, "");
 	string str;
 	int k;
-
 	char contin = 'y';
+
 	while (contin=='y')
 	{
 		cout << "¬ведите строку:" << endl;
-		cin.get(); //убирает оставшийс€ в потоке символ перехода на новую строку
 		getline(cin,str);
 		cout << "¬ведите число k:" << endl;
 		cin >> k;
-		if (IsKPeriodic(str, k))
+		int length = str.size();
+
+		if (k <= 0)
+		{
+			cout<<"„исло k должно быть больше нул€!" << endl;
+		}
+		else if (k > length)
+		{
+			cout << "„исло k не должно быть больше длины строки!" << endl;
+		}
+		else if (IsKPeriodic(str, k))
 		{
 			cout << "—трока кратна числу " << k << endl;
 		}
@@ -77,7 +72,7 @@ int main()
 		cout << "\n’отите продолжить? (y/n)" << endl;
 		cin >> contin;
 		cout << endl;
+		cin.get();//убирает оставшийс€ в потоке символ перехода на новую строку
 	}
-	
 	return 0;
 }
