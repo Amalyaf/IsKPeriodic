@@ -27,7 +27,7 @@ bool IsKPeriodic(string str, int k)
 			return false;
 		}
 		j++;
-		if (j >= k)
+		if (j == k)
 		{
 			j = 0;
 		}
